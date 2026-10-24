@@ -101,12 +101,16 @@ export function HeroEngine() {
       {/* Top Architectural Metadata Rail */}
       <div className="hero-rail">
         <div className="hero-rail-item">
-          <span className="rail-dot" aria-hidden="true" />
-          <span className="rail-label">Transatlantic Corridor</span>
+          <div className="rail-tag-row">
+            <span className="rail-dot" aria-hidden="true" />
+            <span className="rail-label">Transatlantic Corridor</span>
+          </div>
           <span className="rail-val">US ↔ India Financial Bridge</span>
         </div>
         <div className="hero-rail-item">
-          <span className="rail-label">Practice Credential</span>
+          <div className="rail-tag-row">
+            <span className="rail-label">Practice Credential</span>
+          </div>
           <span className="rail-val">UPC &amp; Associates · ARN-278052</span>
         </div>
         <div className="hero-rail-clocks">

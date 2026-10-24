@@ -224,6 +224,15 @@ img, svg {
   text-transform: uppercase;
 }
 
+.section-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
 /* Controls & Buttons */
 .button {
   position: relative;
@@ -567,6 +576,12 @@ img, svg {
 
 .hero-rail-item {
   display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rail-tag-row {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
 }
@@ -3194,6 +3209,12 @@ img, svg {
 }
 
 @media (max-width: 960px) {
+  .hero-rail {
+    flex-wrap: wrap;
+    border-radius: var(--radius-xl);
+    padding: 14px 20px;
+    gap: 12px;
+  }
   .nav {
     display: none;
   }
@@ -3342,44 +3363,514 @@ img, svg {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --gutter: 16px;
+  }
+
   .header-top-ticker {
     display: none;
   }
+
+  /* Architectural Rail on Mobile */
   .hero-rail {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px 16px;
+    border-radius: var(--radius-xl);
+    margin-bottom: 24px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    box-shadow: 0 4px 14px -4px rgba(18, 61, 50, 0.05);
+  }
+
+  .hero-rail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule-subtle);
+  }
+
+  .rail-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .rail-label {
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  .rail-val {
+    font-size: 13px;
+    color: var(--ink);
+    padding-left: 12px;
+    line-height: 1.4;
+  }
+
+  .hero-rail-item:nth-child(2) .rail-val {
+    padding-left: 0;
+  }
+
+  .hero-rail-clocks {
+    width: 100%;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    background: var(--ivory-surface);
+    margin-top: 2px;
+  }
+
+  .clock-city {
+    font-size: 10.5px;
+  }
+
+  .clock-time {
+    font-size: 12px;
+  }
+
+  /* Hero Editorial Header */
+  .hero-kicker-badge {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    margin-bottom: 16px;
+  }
+
+  .badge-line {
+    width: 20px;
+  }
+
+  .hero-headline {
+    font-size: clamp(34px, 8.5vw, 44px);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    margin-bottom: 18px;
+  }
+
+  .hero-synopsis {
+    font-size: 15.5px;
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+
+  /* Lens Selector */
+  .lens-controller {
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .lens-label-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .lens-status {
+    font-size: 11px;
+  }
+
+  .lens-buttons {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .lens-btn {
+    padding: 12px 14px;
+    font-size: 13.5px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Hero CTA Group */
+  .hero-cta-group {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: 100%;
+    min-height: 50px;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+  }
+
+  .hero-credentials {
+    padding: 14px 16px;
+    border-radius: var(--radius-lg);
+    background: rgba(18, 61, 50, 0.03);
+    border: 1px solid var(--rule-subtle);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  /* Diagram Card */
+  .diagram-card {
+    padding: 18px 16px;
+    border-radius: var(--radius-xl);
+  }
+
+  .diagram-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .readout-tags {
+    gap: 6px;
+  }
+
+  .readout-tag {
+    font-size: 10.5px;
+    padding: 4px 10px;
+  }
+
+  .diagram-footer {
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 9.5px;
+  }
+
+  .fiduciary-slip {
+    display: none;
+  }
+
+  /* Section Intros & Toplines */
+  .section-topline {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .section-heading-row h2.display {
+    font-size: clamp(30px, 7.5vw, 42px);
+    line-height: 1.08;
+  }
+
+  .section-intro-body {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 14px;
+  }
+
+  /* Dossier */
+  .dossier-topline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .dossier-index-badge {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    width: 100%;
+  }
+
+  .dossier-status-tag {
+    font-size: 10.5px;
+    padding: 4px 10px;
+  }
+
+  .dossier-sheet {
+    padding: 20px 16px;
+    border-radius: var(--radius-lg);
+  }
+
+  .sheet-masthead {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  .hero-rail-clocks {
+
+  .sheet-title {
+    font-size: 28px;
+    line-height: 1.15;
+  }
+
+  .pillar-desc {
+    font-size: 14.5px;
+  }
+
+  /* Services Monograph */
+  .services-bar {
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+
+  .services-bar-info {
     width: 100%;
     justify-content: space-between;
   }
-  .lens-buttons {
-    grid-template-columns: 1fr;
+
+  .services-filters {
+    width: 100%;
+    gap: 6px;
   }
-  .portals-grid {
-    grid-template-columns: 1fr;
+
+  .filter-pill {
+    padding: 6px 12px;
+    font-size: 11.5px;
   }
+
+  .spotlight-card {
+    padding: 22px 18px;
+    border-radius: var(--radius-xl);
+  }
+
+  .spotlight-title {
+    font-size: 26px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .spotlight-desc {
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .spotlight-workflow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 14px 14px;
+    margin-bottom: 20px;
+  }
+
+  .workflow-connector {
+    display: none;
+  }
+
+  .workflow-step {
+    width: 100%;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(246, 244, 237, 0.12);
+  }
+
+  .workflow-step:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .spotlight-metrics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 10px 8px;
+    margin-bottom: 20px;
+  }
+
+  .metric-val {
+    font-size: 17px;
+  }
+
+  .metric-lbl {
+    font-size: 9.5px;
+    line-height: 1.3;
+  }
+
+  .spotlight-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .spotlight-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .spotlight-note {
+    text-align: center;
+    font-size: 11px;
+  }
+
   .service-grid {
     grid-template-columns: 1fr;
   }
+
+  .row-main {
+    padding: 20px 16px;
+    gap: 14px;
+  }
+
+  .row-num-block {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .row-number {
+    font-size: 24px;
+  }
+
+  .row-title {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .row-synopsis {
+    font-size: 14px;
+  }
+
+  .row-specs {
+    gap: 6px;
+  }
+
+  .row-spec-chip {
+    font-size: 10.5px;
+    padding: 3px 8px;
+  }
+
+  /* Process Runway */
+  .runway-header {
+    margin-bottom: 36px;
+  }
+
+  .runway-topline {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+  }
+
+  .runway-title {
+    font-size: clamp(30px, 7.5vw, 40px);
+    line-height: 1.1;
+  }
+
+  .runway-lede {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .runway-card {
+    padding: 22px 18px 20px;
+    border-radius: var(--radius-lg);
+  }
+
+  .card-number {
+    font-size: 36px;
+  }
+
+  .card-title {
+    font-size: 22px;
+  }
+
+  .card-body {
+    font-size: 14px;
+  }
+
+  /* Quad Portals */
+  .portals-header {
+    margin-bottom: 36px;
+  }
+
+  .portals-topline {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+  }
+
+  .portals-title {
+    font-size: clamp(30px, 7.5vw, 40px);
+    line-height: 1.1;
+  }
+
+  .portals-lede {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .portals-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .portal-card {
+    padding: 24px 20px;
+    border-radius: var(--radius-lg);
+  }
+
+  .portal-title {
+    font-size: 22px;
+  }
+
+  /* Contact Band */
+  .band-topline {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .band-title {
+    font-size: clamp(30px, 7.5vw, 42px);
+    line-height: 1.1;
+  }
+
+  .band-desc {
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+
+  .band-action-wrap {
+    justify-content: stretch;
+  }
+
+  .band-action-wrap .button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Forms */
   .form {
     grid-template-columns: 1fr;
-    padding: 24px 20px;
+    padding: 24px 18px;
+    border-radius: var(--radius-lg);
   }
+
   .field.full {
     grid-column: auto;
   }
+
   .form .button {
     justify-self: stretch;
-  }
-  .fiduciary-slip {
-    display: none;
-  }
-  .hero-btn-primary,
-  .hero-btn-secondary {
     width: 100%;
-    justify-content: center;
+  }
+
+  /* Inner Pages */
+  .page-hero {
+    padding: 48px 0 40px;
+  }
+
+  .page-hero-meta {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .page-hero-title {
+    font-size: clamp(32px, 8vw, 44px);
+    line-height: 1.08;
+  }
+
+  .page-hero-desc {
+    font-size: 15.5px;
+    line-height: 1.6;
   }
 }
 
