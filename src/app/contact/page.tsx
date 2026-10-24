@@ -1,25 +1,36 @@
 import type { Metadata } from "next";
-import { Eyebrow, PageHero } from "@/components/sections";
+import { PageHero } from "@/components/sections";
 import { Reveal } from "@/components/motion";
 import ContactForm from "./contact-form";
+import { ContactSidebar } from "./contact-sidebar";
 
-export const metadata: Metadata = { title: "Contact", description: "Start a conversation with Trust Trio about accounting, tax or wealth support." };
+export const metadata: Metadata = {
+  title: "Consultation & Intake Console | Trust Trio",
+  description:
+    "Initiate an exploratory consultation with Trust Trio. Tailored offshore capacity for US CPA firms, business accounting, multi-jurisdiction tax, and wealth stewardship.",
+};
 
 export default function Page() {
   return (
-    <main id="main">
-      <PageHero eyebrow="Contact" title="Start with a conversation." description="A little context helps us understand what kind of support you’re exploring. Please keep sensitive information out of this form." cta={false} />
-      <section className="section">
+    <main id="main" className="contact-main">
+      <PageHero
+        eyebrow="INTAKE & CONSULTATION CONSOLE"
+        title="Start with a considered conversation."
+        description="Every engagement begins with understanding your operational reality. Tailored capacity for US CPA firms, business ledgers, and transatlantic tax compliance."
+        cta={false}
+      />
+
+      <section className="section contact-section">
         <div className="wrap contact-layout">
+          {/* Left Column: Telemetry, Chartered Leadership, & Guarantees */}
           <Reveal as="div">
-            <aside>
-              <Eyebrow>A good place to begin</Eyebrow>
-              <div className="contact-detail"><h3>Who we work with</h3><p>CPA firms, businesses and individuals with US, India or cross-border needs.</p></div>
-              <div className="contact-detail"><h3>What happens next</h3><p>We’ll learn more about your needs and discuss whether the services and engagement are a fit.</p></div>
-              <div className="contact-detail"><h3>Keep it general</h3><p>Please don’t share tax identification numbers, account details, client information or documents through an initial enquiry.</p></div>
-            </aside>
+            <ContactSidebar />
           </Reveal>
-          <Reveal delay={120}><ContactForm /></Reveal>
+
+          {/* Right Column: Interactive Consultation Engine */}
+          <Reveal delay={120} as="div">
+            <ContactForm />
+          </Reveal>
         </div>
       </section>
     </main>
