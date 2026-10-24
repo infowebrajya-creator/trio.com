@@ -313,19 +313,24 @@ img, svg {
 }
 
 /* 4. Motion & Micro-Transitions */
-.reveal {
+.reveal,
+.reveal-motion {
   opacity: 1;
   transform: none;
 }
 
-.js .reveal {
+.reveal-motion {
+  will-change: transform, opacity;
+}
+
+.js .reveal:not(.reveal-motion) {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.85s var(--ease) var(--reveal-delay, 0ms),
               transform 0.85s var(--ease) var(--reveal-delay, 0ms);
 }
 
-.js .reveal.is-visible {
+.js .reveal:not(.reveal-motion).is-visible {
   opacity: 1;
   transform: none;
 }

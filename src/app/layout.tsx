@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { Header, Footer } from "@/components/site";
+import { MotionProvider } from "@/components/motion";
 
 const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], weight: ["300", "400", "500"], variable: "--font-serif", display: "swap" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -25,9 +26,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
         <a className="skip" href="#main">Skip to content</a>
-        <Header />
-        {children}
-        <Footer />
+        <MotionProvider>
+          <Header />
+          {children}
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );
