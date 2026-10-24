@@ -137,11 +137,10 @@ export function Header() {
             id="mobile-nav"
             className="mobile-links open"
             aria-label="Mobile navigation"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={motionSprings.gentle}
-            style={{ overflow: "hidden" }}
           >
             <div className="wrap mobile-links-inner">
               <div className="mobile-meta-bar">

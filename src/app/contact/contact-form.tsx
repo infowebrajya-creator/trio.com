@@ -466,7 +466,7 @@ export default function ContactForm() {
         <div className="console-actions">
           <motion.button
             type="submit"
-            className="button button-light console-submit-btn"
+            className="button console-submit-btn"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={motionSprings.snappy}

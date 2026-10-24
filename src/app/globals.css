@@ -626,16 +626,19 @@ img, svg {
   gap: 6px;
 }
 
-.clock-city {
+.hero-rail-clocks .clock-city,
+.rail-clock .clock-city {
   font-weight: 700;
-  color: var(--forest);
+  color: var(--forest) !important;
   font-size: 11px;
 }
 
-.clock-time {
-  color: var(--ink-secondary);
+.hero-rail-clocks .clock-time,
+.rail-clock .clock-time {
+  color: var(--ink-secondary) !important;
   font-variant-numeric: tabular-nums;
   font-weight: 600;
+  font-size: 12px;
 }
 
 .clock-sep {
@@ -3070,33 +3073,33 @@ img, svg {
   margin-bottom: 16px;
 }
 
-.clock-col {
+.telemetry-clocks .clock-col {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.clock-city {
+.telemetry-clocks .clock-city {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: rgba(246, 244, 237, 0.6);
+  color: rgba(246, 244, 237, 0.6) !important;
 }
 
-.clock-time {
+.telemetry-clocks .clock-time {
   font-family: var(--font-mono);
   font-size: 18px;
   font-weight: 700;
-  color: var(--paper);
+  color: var(--paper) !important;
   letter-spacing: 0.04em;
 }
 
-.clock-sub {
+.telemetry-clocks .clock-sub {
   font-size: 11px;
   color: var(--accent);
 }
 
-.clock-divider {
+.telemetry-clocks .clock-divider {
   color: rgba(201, 148, 74, 0.5);
   font-size: 16px;
 }
@@ -3840,6 +3843,17 @@ img, svg {
   justify-content: center;
   gap: 10px;
   cursor: pointer;
+  background: var(--forest);
+  color: var(--paper) !important;
+  border: 1px solid var(--forest);
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 14px -3px rgba(18, 61, 50, 0.4);
+}
+
+.console-submit-btn:hover {
+  background: var(--forest-light);
+  border-color: var(--forest-light);
+  box-shadow: 0 8px 24px -6px rgba(18, 61, 50, 0.5);
 }
 
 .console-copy-btn {
@@ -4143,10 +4157,14 @@ img, svg {
     transform: rotate(-45deg);
   }
   .mobile-links {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: var(--header-h);
     left: 0;
     right: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: calc(100dvh - var(--header-h));
+    max-height: calc(100dvh - var(--header-h));
     display: block;
     background: var(--deep);
     color: var(--paper);
@@ -4155,8 +4173,10 @@ img, svg {
     opacity: 0;
     transform: translateY(-8px);
     transition: all 0.35s var(--ease);
-    max-height: calc(100dvh - var(--header-h));
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.75);
+    z-index: 100;
   }
   .mobile-links.open {
     visibility: visible;
@@ -4164,7 +4184,11 @@ img, svg {
     transform: none;
   }
   .mobile-links-inner {
-    padding: 24px 0 32px;
+    padding: 24px 0 44px;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100dvh - var(--header-h) - 44px);
+    justify-content: space-between;
   }
   .mobile-meta-bar {
     display: flex;
@@ -4311,12 +4335,18 @@ img, svg {
     margin-top: 2px;
   }
 
-  .clock-city {
-    font-size: 10.5px;
+  .hero-rail-clocks .clock-city,
+  .rail-clock .clock-city {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--forest) !important;
   }
 
-  .clock-time {
+  .hero-rail-clocks .clock-time,
+  .rail-clock .clock-time {
     font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-secondary) !important;
   }
 
   /* Hero Editorial Header */
