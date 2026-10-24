@@ -3882,6 +3882,10 @@ img, svg {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .hero-rail {
+    display: none !important;
+  }
+
   .lens-cards-grid,
   .corridor-segmented,
   .urgency-grid,
@@ -4280,73 +4284,9 @@ img, svg {
     display: none;
   }
 
-  /* Architectural Rail on Mobile */
+  /* Architectural Rail on Mobile - Removed for clean uncluttered hero focus */
   .hero-rail {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    padding: 16px 16px;
-    border-radius: var(--radius-xl);
-    margin-bottom: 24px;
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    box-shadow: 0 4px 14px -4px rgba(18, 61, 50, 0.05);
-  }
-
-  .hero-rail-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-    width: 100%;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--rule-subtle);
-  }
-
-  .rail-tag-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .rail-label {
-    font-size: 10.5px;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-  }
-
-  .rail-val {
-    font-size: 13px;
-    color: var(--ink);
-    padding-left: 12px;
-    line-height: 1.4;
-  }
-
-  .hero-rail-item:nth-child(2) .rail-val {
-    padding-left: 0;
-  }
-
-  .hero-rail-clocks {
-    width: 100%;
-    justify-content: space-between;
-    padding: 8px 14px;
-    border-radius: var(--radius-md);
-    background: var(--ivory-surface);
-    margin-top: 2px;
-  }
-
-  .hero-rail-clocks .clock-city,
-  .rail-clock .clock-city {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--forest) !important;
-  }
-
-  .hero-rail-clocks .clock-time,
-  .rail-clock .clock-time {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink-secondary) !important;
+    display: none !important;
   }
 
   /* Hero Editorial Header */
