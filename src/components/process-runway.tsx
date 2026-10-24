@@ -1,6 +1,7 @@
 "use client";
 
-import { Reveal } from "@/components/motion";
+import { motion } from "motion/react";
+import { Reveal, motionSprings } from "@/components/motion";
 import { Eyebrow } from "@/components/sections";
 
 const PROCESS_STEPS = [
@@ -66,10 +67,18 @@ export function ProcessRunway() {
           <ol className="runway-steps">
             {PROCESS_STEPS.map((step, idx) => (
               <Reveal as="li" key={step.num} delay={idx * 120} className="runway-step-item">
-                <div className="runway-card">
+                <motion.div
+                  className="runway-card"
+                  whileHover={{ y: -6 }}
+                  transition={motionSprings.gentle}
+                >
                   <div className="card-topline">
                     <span className="step-beacon" aria-hidden="true">
-                      <span className="beacon-inner" />
+                      <motion.span
+                        className="beacon-inner"
+                        animate={{ scale: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
+                        transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                      />
                     </span>
                     <span className="step-phase">{step.phase}</span>
                     <span className="step-sla">{step.sla}</span>
@@ -90,7 +99,7 @@ export function ProcessRunway() {
                       {step.deliverable}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               </Reveal>
             ))}
           </ol>

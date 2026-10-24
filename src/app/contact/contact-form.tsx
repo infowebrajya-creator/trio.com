@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Arrow } from "@/components/icons";
 
 export default function ContactForm() {
@@ -22,7 +23,19 @@ export default function ContactForm() {
 
   return (
     <form className="form" onSubmit={submit}>
-      {status && <div className="form-success" role="status">{status}</div>}
+      <AnimatePresence>
+        {status && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="form-success"
+            role="status"
+          >
+            {status}
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="field"><label htmlFor="name">Your name</label><input id="name" name="name" autoComplete="name" required maxLength={100} /></div>
       <div className="field"><label htmlFor="email">Email address</label><input id="email" name="email" type="email" autoComplete="email" required maxLength={200} /></div>
       <div className="field full">
@@ -38,7 +51,12 @@ export default function ContactForm() {
       </div>
       <div className="field full"><label htmlFor="message">A little context <span className="optional">(optional)</span></label><textarea id="message" name="message" maxLength={1500} placeholder="What kind of support are you exploring?" /></div>
       <p className="privacy-note field full">Please don’t include tax IDs, account numbers, client records or financial documents. This form uses your email app when a contact address is configured; it does not upload files.</p>
-      <div className="field full"><button className="button" type="submit">Prepare enquiry <Arrow /></button></div>
+      <div className="field full">
+        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="button" type="submit">
+          <span>Prepare enquiry</span>
+          <Arrow />
+        </motion.button>
+      </div>
     </form>
   );
 }

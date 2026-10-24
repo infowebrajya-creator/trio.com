@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
 import { Arrow } from "@/components/icons";
 import { Eyebrow } from "@/components/sections";
-import { Reveal } from "@/components/motion";
+import { Reveal, motionSprings } from "@/components/motion";
+
+const MotionLink = motion.create(Link);
 
 const PORTALS = [
   {
@@ -78,7 +81,11 @@ export function QuadPortals() {
         <div className="portals-grid">
           {PORTALS.map((portal, idx) => (
             <Reveal as="div" key={portal.num} delay={idx * 80} className={`portal-cell portal-${portal.theme}`}>
-              <div className="portal-card">
+              <motion.div
+                className="portal-card"
+                whileHover={{ y: -6 }}
+                transition={motionSprings.gentle}
+              >
                 <div className="portal-top">
                   <div className="portal-badge-wrap">
                     <span className="portal-pill">{portal.tag}</span>
@@ -102,12 +109,18 @@ export function QuadPortals() {
                 </div>
 
                 <div className="portal-bottom">
-                  <Link href={portal.href} className="portal-link">
+                  <MotionLink
+                    href={portal.href}
+                    className="portal-link"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={motionSprings.snappy}
+                  >
                     <span>{portal.cta}</span>
                     <Arrow />
-                  </Link>
+                  </MotionLink>
                 </div>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>

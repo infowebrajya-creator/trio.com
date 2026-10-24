@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
 import { Arrow, iconFor } from "@/components/icons";
+import { motionSprings } from "@/components/motion";
+
+const MotionLink = motion.create(Link);
 
 export interface ServiceDetail {
   number: string;
@@ -100,32 +104,54 @@ export function ServicesEditorial() {
           <span className="services-bar-count">Showing {filtered.length} of 06 Capabilities</span>
         </div>
         
-        {/* Filter Pills */}
+        {/* Filter Pills with Sliding Layout Indicator */}
         <div className="services-filters" role="tablist" aria-label="Filter practice areas">
           {[
             { id: "all", label: "All Capabilities" },
             { id: "cpa", label: "CPA Firm Augmentation" },
             { id: "business", label: "Growing Businesses" },
             { id: "individual", label: "Personal & Cross-Border" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              role="tab"
-              aria-selected={filter === tab.id}
-              onClick={() => setFilter(tab.id as typeof filter)}
-              className={`filter-pill ${filter === tab.id ? "is-active" : ""}`}
-            >
-              <span>{tab.label}</span>
-            </button>
-          ))}
+          ].map((tab) => {
+            const active = filter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                role="tab"
+                aria-selected={active}
+                onClick={() => setFilter(tab.id as typeof filter)}
+                className={`filter-pill ${active ? "is-active" : ""}`}
+                style={{ position: "relative" }}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="active-service-filter-pill"
+                    className="filter-pill-active-bg"
+                    transition={motionSprings.snappy}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      borderRadius: "inherit",
+                      backgroundColor: "var(--forest)",
+                      zIndex: 0,
+                    }}
+                  />
+                )}
+                <span style={{ position: "relative", zIndex: 1 }}>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Feature Spotlight Asymmetry (Top 2 Featured Anchors) */}
+      {/* Feature Spotlight Asymmetry with Hover Motion */}
       {filter === "all" && (
         <div className="services-spotlight-duo">
           {/* Spotlight 01: CPA Leverage */}
-          <div className="spotlight-card spotlight-cpa">
+          <motion.div
+            className="spotlight-card spotlight-cpa"
+            whileHover={{ y: -6 }}
+            transition={motionSprings.gentle}
+          >
             <div className="spotlight-badge">
               <span>FEATURED PRACTICE 01</span>
               <span className="badge-bullet">•</span>
@@ -156,16 +182,26 @@ export function ServicesEditorial() {
               </div>
             </div>
             <div className="spotlight-cta-row">
-              <Link href="/cpa-firms" className="spotlight-btn">
+              <MotionLink
+                href="/cpa-firms"
+                className="spotlight-btn"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={motionSprings.snappy}
+              >
                 <span>View Firm Augmentation Model</span>
                 <Arrow />
-              </Link>
+              </MotionLink>
               <span className="spotlight-note">100% White-Label Delivery</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Spotlight 02: Business Accounting */}
-          <div className="spotlight-card spotlight-business">
+          <motion.div
+            className="spotlight-card spotlight-business"
+            whileHover={{ y: -6 }}
+            transition={motionSprings.gentle}
+          >
             <div className="spotlight-badge">
               <span>FEATURED PRACTICE 02</span>
               <span className="badge-bullet">•</span>
@@ -194,17 +230,23 @@ export function ServicesEditorial() {
               </div>
             </div>
             <div className="spotlight-cta-row">
-              <Link href="/businesses" className="spotlight-btn">
+              <MotionLink
+                href="/businesses"
+                className="spotlight-btn"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={motionSprings.snappy}
+              >
                 <span>View Business Solutions</span>
                 <Arrow />
-              </Link>
+              </MotionLink>
               <span className="spotlight-note">QuickBooks &amp; Xero Certified</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 
-      {/* Numbered Editorial Master Index */}
+      {/* Numbered Editorial Master Index with Fluid Spring Reordering */}
       <div className="services-index-table" role="region" aria-label="Service capabilities index">
         <div className="index-table-header">
           <span className="col-idx">No.</span>
@@ -214,55 +256,69 @@ export function ServicesEditorial() {
         </div>
 
         <div className="index-table-body">
-          {filtered.map((item) => {
-            const isHovered = activeItem === item.number;
-            return (
-              <article
-                key={item.number}
-                className={`index-row ${isHovered ? "is-row-active" : ""}`}
-                onMouseEnter={() => setActiveItem(item.number)}
-              >
-                <div className="row-main">
-                  <div className="row-num-block">
-                    <span className="row-number">{item.number}</span>
-                    <span className="row-icon-wrap" aria-hidden="true">
-                      {iconFor(item.title, parseInt(item.number, 10))}
-                    </span>
-                  </div>
-
-                  <div className="row-content">
-                    <div className="row-topline">
-                      <span className="row-category-badge">{item.categoryLabel}</span>
-                      <span className="row-badge-pill">{item.engagementNote}</span>
+          <AnimatePresence mode="popLayout">
+            {filtered.map((item) => {
+              const isHovered = activeItem === item.number;
+              return (
+                <motion.article
+                  key={item.number}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={motionSprings.gentle}
+                  whileHover={{ x: 6 }}
+                  className={`index-row ${isHovered ? "is-row-active" : ""}`}
+                  onMouseEnter={() => setActiveItem(item.number)}
+                >
+                  <div className="row-main">
+                    <div className="row-num-block">
+                      <span className="row-number">{item.number}</span>
+                      <span className="row-icon-wrap" aria-hidden="true">
+                        {iconFor(item.title, parseInt(item.number, 10))}
+                      </span>
                     </div>
 
-                    <h3 className="row-title">
-                      <Link href={item.href}>{item.title}</Link>
-                    </h3>
+                    <div className="row-content">
+                      <div className="row-topline">
+                        <span className="row-category-badge">{item.categoryLabel}</span>
+                        <span className="row-badge-pill">{item.engagementNote}</span>
+                      </div>
 
-                    <p className="row-synopsis">{item.synopsis}</p>
+                      <h3 className="row-title">
+                        <Link href={item.href}>{item.title}</Link>
+                      </h3>
 
-                    {/* Deliverables tags */}
-                    <div className="row-deliverables">
-                      {item.deliverables.map((del, dIdx) => (
-                        <span key={dIdx} className="deliverable-tag">
-                          <span className="tag-dot" aria-hidden="true" />
-                          <span>{del}</span>
-                        </span>
-                      ))}
+                      <p className="row-synopsis">{item.synopsis}</p>
+
+                      {/* Deliverables tags */}
+                      <div className="row-deliverables">
+                        {item.deliverables.map((del, dIdx) => (
+                          <span key={dIdx} className="deliverable-tag">
+                            <span className="tag-dot" aria-hidden="true" />
+                            <span>{del}</span>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="row-actions">
+                      <MotionLink
+                        href={item.href}
+                        className="row-cta-btn"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={motionSprings.snappy}
+                      >
+                        <span>{item.ctaText}</span>
+                        <Arrow />
+                      </MotionLink>
                     </div>
                   </div>
-
-                  <div className="row-actions">
-                    <Link href={item.href} className="row-cta-btn">
-                      <span>{item.ctaText}</span>
-                      <Arrow />
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
         </div>
       </div>
     </div>

@@ -2,7 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
 import { Arrow } from "@/components/icons";
+import { motionSprings } from "@/components/motion";
+
+const MotionLink = motion.create(Link);
 
 type LensKey = "cpa" | "business" | "individual";
 
@@ -165,9 +169,24 @@ export function HeroEngine() {
                     aria-selected={active}
                     onClick={() => setActiveLens(key)}
                     className={`lens-btn ${active ? "is-active" : ""}`}
+                    style={{ position: "relative" }}
                   >
-                    <span className="lens-btn-indicator" aria-hidden="true" />
-                    <span className="lens-btn-text">{item.label}</span>
+                    {active && (
+                      <motion.span
+                        layoutId="active-lens-indicator"
+                        className="lens-active-pill"
+                        transition={motionSprings.snappy}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          borderRadius: "inherit",
+                          backgroundColor: "var(--forest)",
+                          zIndex: 0,
+                        }}
+                      />
+                    )}
+                    <span className="lens-btn-indicator" style={{ position: "relative", zIndex: 1 }} aria-hidden="true" />
+                    <span className="lens-btn-text" style={{ position: "relative", zIndex: 1 }}>{item.label}</span>
                   </button>
                 );
               })}
@@ -176,14 +195,32 @@ export function HeroEngine() {
 
           {/* Primary Action Group */}
           <div className="hero-cta-group">
-            <Link className="hero-btn-primary" href="/contact">
+            <MotionLink
+              className="hero-btn-primary"
+              href="/contact"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={motionSprings.snappy}
+            >
               <span>Initiate Conversation</span>
               <Arrow />
-            </Link>
-            <Link className="hero-btn-secondary" href={cur.ctaUrl}>
-              <span>{cur.ctaText}</span>
-              <span className="arrow-inline" aria-hidden="true">→</span>
-            </Link>
+            </MotionLink>
+            <AnimatePresence mode="wait">
+              <MotionLink
+                key={cur.ctaUrl}
+                initial={{ opacity: 0, x: 6 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -6 }}
+                whileHover={{ scale: 1.02, x: 2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={motionSprings.gentle}
+                className="hero-btn-secondary"
+                href={cur.ctaUrl}
+              >
+                <span>{cur.ctaText}</span>
+                <span className="arrow-inline" aria-hidden="true">→</span>
+              </MotionLink>
+            </AnimatePresence>
           </div>
 
           {/* Micro-Trust Footnote */}
@@ -207,10 +244,19 @@ export function HeroEngine() {
                 <span className="diagram-tag">DYNAMIC ARCHITECTURE</span>
                 <span className="diagram-id">FIG 01.3 — THE TRUST TRIAD</span>
               </div>
-              <div className="diagram-live-pill">
-                <span className="live-dot" />
-                <span>{cur.badge}</span>
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={cur.badge}
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 4 }}
+                  transition={motionSprings.gentle}
+                  className="diagram-live-pill"
+                >
+                  <span className="live-dot" />
+                  <span>{cur.badge}</span>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Precision SVG Vector Blueprint */}
@@ -271,7 +317,7 @@ export function HeroEngine() {
                 />
 
                 {/* Active Tracer Line */}
-                <path
+                <motion.path
                   d={
                     highlightedNode === 1
                       ? "M 140 120 L 400 120"
@@ -283,94 +329,133 @@ export function HeroEngine() {
                   stroke="url(#goldGradient)"
                   strokeWidth="2.5"
                   className="tracer-line"
+                  animate={{
+                    d:
+                      highlightedNode === 1
+                        ? "M 140 120 L 400 120"
+                        : highlightedNode === 2
+                        ? "M 400 120 L 270 330"
+                        : "M 270 330 L 140 120",
+                  }}
+                  transition={motionSprings.architectural}
                 />
 
                 {/* Center Fusion Nexus */}
                 <g transform="translate(270, 200)">
-                  <circle r="28" fill="url(#forestGradient)" stroke="rgba(217, 166, 108, 0.4)" strokeWidth="1.5" />
-                  <circle r="4" fill="#E4B87E" />
-                  <text
-                    y="4"
-                    textAnchor="middle"
-                    fill="#E4B87E"
-                    fontSize="11"
-                    fontFamily="serif"
-                    fontStyle="italic"
+                  <motion.g
+                    animate={{ scale: [1, 1.04, 1] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                   >
-                    Trio
-                  </text>
+                    <circle r="28" fill="url(#forestGradient)" stroke="rgba(217, 166, 108, 0.4)" strokeWidth="1.5" />
+                    <circle r="4" fill="#E4B87E" />
+                    <text
+                      y="4"
+                      textAnchor="middle"
+                      fill="#E4B87E"
+                      fontSize="11"
+                      fontFamily="serif"
+                      fontStyle="italic"
+                    >
+                      Trio
+                    </text>
+                  </motion.g>
                 </g>
 
                 {/* NODE 01: Continuous Accounting (Top Left) */}
-                <g
-                  className={`diagram-node ${highlightedNode === 1 ? "is-node-active" : ""}`}
-                  transform="translate(140, 120)"
-                  onMouseEnter={() => setHoveredNode(1)}
-                  onMouseLeave={() => setHoveredNode(null)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <circle r="42" fill="#0B2922" stroke={highlightedNode === 1 ? "#E4B87E" : "rgba(246,244,237,0.2)"} strokeWidth={highlightedNode === 1 ? "2.5" : "1.2"} />
-                  <circle r="34" fill="none" stroke="rgba(217,166,108,0.18)" strokeDasharray="2 3" />
-                  <text y="-8" textAnchor="middle" fill="#E4B87E" fontSize="10" fontWeight="600" letterSpacing="0.1em">01</text>
-                  <text y="8" textAnchor="middle" fill="#FFFFFF" fontSize="13" fontFamily="serif">Accounting</text>
-                  <text y="22" textAnchor="middle" fill="rgba(246,244,237,0.6)" fontSize="9">Ledger &amp; Close</text>
+                <g transform="translate(140, 120)">
+                  <motion.g
+                    className={`diagram-node ${highlightedNode === 1 ? "is-node-active" : ""}`}
+                    onMouseEnter={() => setHoveredNode(1)}
+                    onMouseLeave={() => setHoveredNode(null)}
+                    whileHover={{ scale: 1.06 }}
+                    transition={motionSprings.snappy}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <circle r="42" fill="#0B2922" stroke={highlightedNode === 1 ? "#E4B87E" : "rgba(246,244,237,0.2)"} strokeWidth={highlightedNode === 1 ? "2.5" : "1.2"} />
+                    <circle r="34" fill="none" stroke="rgba(217,166,108,0.18)" strokeDasharray="2 3" />
+                    <text y="-8" textAnchor="middle" fill="#E4B87E" fontSize="10" fontWeight="600" letterSpacing="0.1em">01</text>
+                    <text y="8" textAnchor="middle" fill="#FFFFFF" fontSize="13" fontFamily="serif">Accounting</text>
+                    <text y="22" textAnchor="middle" fill="rgba(246,244,237,0.6)" fontSize="9">Ledger &amp; Close</text>
+                  </motion.g>
                 </g>
 
                 {/* NODE 02: Strategic Tax (Top Right) */}
-                <g
-                  className={`diagram-node ${highlightedNode === 2 ? "is-node-active" : ""}`}
-                  transform="translate(400, 120)"
-                  onMouseEnter={() => setHoveredNode(2)}
-                  onMouseLeave={() => setHoveredNode(null)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <circle r="42" fill="#0B2922" stroke={highlightedNode === 2 ? "#E4B87E" : "rgba(246,244,237,0.2)"} strokeWidth={highlightedNode === 2 ? "2.5" : "1.2"} />
-                  <circle r="34" fill="none" stroke="rgba(217,166,108,0.18)" strokeDasharray="2 3" />
-                  <text y="-8" textAnchor="middle" fill="#E4B87E" fontSize="10" fontWeight="600" letterSpacing="0.1em">02</text>
-                  <text y="8" textAnchor="middle" fill="#FFFFFF" fontSize="13" fontFamily="serif">Tax Strategy</text>
-                  <text y="22" textAnchor="middle" fill="rgba(246,244,237,0.6)" fontSize="9">US · India · NRI</text>
+                <g transform="translate(400, 120)">
+                  <motion.g
+                    className={`diagram-node ${highlightedNode === 2 ? "is-node-active" : ""}`}
+                    onMouseEnter={() => setHoveredNode(2)}
+                    onMouseLeave={() => setHoveredNode(null)}
+                    whileHover={{ scale: 1.06 }}
+                    transition={motionSprings.snappy}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <circle r="42" fill="#0B2922" stroke={highlightedNode === 2 ? "#E4B87E" : "rgba(246,244,237,0.2)"} strokeWidth={highlightedNode === 2 ? "2.5" : "1.2"} />
+                    <circle r="34" fill="none" stroke="rgba(217,166,108,0.18)" strokeDasharray="2 3" />
+                    <text y="-8" textAnchor="middle" fill="#E4B87E" fontSize="10" fontWeight="600" letterSpacing="0.1em">02</text>
+                    <text y="8" textAnchor="middle" fill="#FFFFFF" fontSize="13" fontFamily="serif">Tax Strategy</text>
+                    <text y="22" textAnchor="middle" fill="rgba(246,244,237,0.6)" fontSize="9">US · India · NRI</text>
+                  </motion.g>
                 </g>
 
                 {/* NODE 03: Wealth Stewardship (Bottom Center) */}
-                <g
-                  className={`diagram-node ${highlightedNode === 3 ? "is-node-active" : ""}`}
-                  transform="translate(270, 330)"
-                  onMouseEnter={() => setHoveredNode(3)}
-                  onMouseLeave={() => setHoveredNode(null)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <circle r="42" fill="#0B2922" stroke={highlightedNode === 3 ? "#E4B87E" : "rgba(246,244,237,0.2)"} strokeWidth={highlightedNode === 3 ? "2.5" : "1.2"} />
-                  <circle r="34" fill="none" stroke="rgba(217,166,108,0.18)" strokeDasharray="2 3" />
-                  <text y="-8" textAnchor="middle" fill="#E4B87E" fontSize="10" fontWeight="600" letterSpacing="0.1em">03</text>
-                  <text y="8" textAnchor="middle" fill="#FFFFFF" fontSize="13" fontFamily="serif">Wealth</text>
-                  <text y="22" textAnchor="middle" fill="rgba(246,244,237,0.6)" fontSize="9">ARN-278052</text>
+                <g transform="translate(270, 330)">
+                  <motion.g
+                    className={`diagram-node ${highlightedNode === 3 ? "is-node-active" : ""}`}
+                    onMouseEnter={() => setHoveredNode(3)}
+                    onMouseLeave={() => setHoveredNode(null)}
+                    whileHover={{ scale: 1.06 }}
+                    transition={motionSprings.snappy}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <circle r="42" fill="#0B2922" stroke={highlightedNode === 3 ? "#E4B87E" : "rgba(246,244,237,0.2)"} strokeWidth={highlightedNode === 3 ? "2.5" : "1.2"} />
+                    <circle r="34" fill="none" stroke="rgba(217,166,108,0.18)" strokeDasharray="2 3" />
+                    <text y="-8" textAnchor="middle" fill="#E4B87E" fontSize="10" fontWeight="600" letterSpacing="0.1em">03</text>
+                    <text y="8" textAnchor="middle" fill="#FFFFFF" fontSize="13" fontFamily="serif">Wealth</text>
+                    <text y="22" textAnchor="middle" fill="rgba(246,244,237,0.6)" fontSize="9">ARN-278052</text>
+                  </motion.g>
                 </g>
               </svg>
             </div>
 
-            {/* Live Contextual Card (Dynamic Content based on lens/hover) */}
+            {/* Live Contextual Card with Smooth AnimatePresence Transition */}
             <div className="diagram-readout">
-              <div className="readout-header">
-                <div>
-                  <span className="readout-label">{cur.metricLabel}</span>
-                  <div className="readout-value">{cur.metricValue}</div>
-                </div>
-                <div className="readout-status-pill">
-                  <span className="pulse-indicator" />
-                  <span>Synchronized</span>
-                </div>
-              </div>
-              <h4 className="readout-title">{cur.focusTitle}</h4>
-              <p className="readout-desc">{cur.focusDesc}</p>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeLens}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={motionSprings.gentle}
+                >
+                  <div className="readout-header">
+                    <div>
+                      <span className="readout-label">{cur.metricLabel}</span>
+                      <div className="readout-value">{cur.metricValue}</div>
+                    </div>
+                    <div className="readout-status-pill">
+                      <span className="pulse-indicator" />
+                      <span>Synchronized</span>
+                    </div>
+                  </div>
+                  <h4 className="readout-title">{cur.focusTitle}</h4>
+                  <p className="readout-desc">{cur.focusDesc}</p>
 
-              <div className="readout-tags">
-                {cur.deliverables.map((item, idx) => (
-                  <span key={idx} className="readout-tag">
-                    <span className="tag-check" aria-hidden="true">✓</span>
-                    <span>{item}</span>
-                  </span>
-                ))}
-              </div>
+                  <div className="readout-tags">
+                    {cur.deliverables.map((item, idx) => (
+                      <motion.span
+                        key={item}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.05, duration: 0.25 }}
+                        className="readout-tag"
+                      >
+                        <span className="tag-check" aria-hidden="true">✓</span>
+                        <span>{item}</span>
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Technical Footer */}

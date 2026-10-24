@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
 import { Eyebrow } from "@/components/sections";
 import { Arrow } from "@/components/icons";
-import { Reveal } from "@/components/motion";
+import { Reveal, motionSprings } from "@/components/motion";
+
+const MotionLink = motion.create(Link);
 
 export function ApproachDossier() {
   return (
@@ -46,7 +49,11 @@ export function ApproachDossier() {
 
               {/* Three-Pillar Fiduciary Audit Breakdown */}
               <div className="sheet-pillars">
-                <div className="sheet-pillar">
+                <motion.div
+                  className="sheet-pillar"
+                  whileHover={{ x: 6 }}
+                  transition={motionSprings.snappy}
+                >
                   <div className="pillar-top">
                     <span className="pillar-num">01</span>
                     <span className="pillar-name">Accounting Infrastructure</span>
@@ -57,9 +64,13 @@ export function ApproachDossier() {
                   <div className="pillar-spec">
                     <span>US GAAP / ASC ↔ India AS Alignment</span>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="sheet-pillar">
+                <motion.div
+                  className="sheet-pillar"
+                  whileHover={{ x: 6 }}
+                  transition={motionSprings.snappy}
+                >
                   <div className="pillar-top">
                     <span className="pillar-num">02</span>
                     <span className="pillar-name">Strategic Tax Calibration</span>
@@ -70,9 +81,13 @@ export function ApproachDossier() {
                   <div className="pillar-spec">
                     <span>Article 25 DTAA Cross-Border Treaty Review</span>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="sheet-pillar">
+                <motion.div
+                  className="sheet-pillar"
+                  whileHover={{ x: 6 }}
+                  transition={motionSprings.snappy}
+                >
                   <div className="pillar-top">
                     <span className="pillar-num">03</span>
                     <span className="pillar-name">Capital &amp; Wealth Governance</span>
@@ -83,7 +98,7 @@ export function ApproachDossier() {
                   <div className="pillar-spec">
                     <span>SEBI/AMFI Code of Conduct Adherence</span>
                   </div>
-                </div>
+                </motion.div>
               </div>
 
               {/* Ledger Sheet Footer & Stamp */}
@@ -116,7 +131,11 @@ export function ApproachDossier() {
               </p>
 
               {/* Asymmetric Comparative Matrix */}
-              <div className="comparative-matrix">
+              <motion.div
+                className="comparative-matrix"
+                whileHover={{ y: -4 }}
+                transition={motionSprings.gentle}
+              >
                 <div className="matrix-card matrix-trio">
                   <div className="matrix-badge">
                     <span className="matrix-icon">★</span>
@@ -134,17 +153,28 @@ export function ApproachDossier() {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </motion.div>
 
               <div className="dossier-actions">
-                <Link className="dossier-btn-primary" href="/about">
+                <MotionLink
+                  className="dossier-btn-primary"
+                  href="/about"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={motionSprings.snappy}
+                >
                   <span>Explore Our Practice Story</span>
                   <Arrow />
-                </Link>
-                <Link className="dossier-text-link" href="/contact">
+                </MotionLink>
+                <MotionLink
+                  className="dossier-text-link"
+                  href="/contact"
+                  whileHover={{ x: 4 }}
+                  transition={motionSprings.snappy}
+                >
                   <span>Inquire About Engagement Terms</span>
                   <span className="arrow-inline" aria-hidden="true">→</span>
-                </Link>
+                </MotionLink>
               </div>
             </div>
           </Reveal>

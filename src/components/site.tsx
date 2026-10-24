@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Arrow } from "@/components/icons";
+import { motionSprings } from "@/components/motion";
+
+const MotionLink = motion.create(Link);
 
 const nav = [
   ["CPA Firms", "/cpa-firms"],
@@ -17,9 +21,14 @@ const nav = [
 function Brand({ light = false }: { light?: boolean }) {
   return (
     <Link className="brand" href="/" aria-label="Trust Trio home">
-      <span className={`brandmark${light ? " brandmark-light" : ""}`} aria-hidden="true">
+      <motion.span
+        className={`brandmark${light ? " brandmark-light" : ""}`}
+        whileHover={{ rotate: 12, scale: 1.05 }}
+        transition={motionSprings.snappy}
+        aria-hidden="true"
+      >
         <span>t</span>
-      </span>
+      </motion.span>
       <div className="brand-text-group">
         <span className="brand-name">trust trio</span>
         <span className="brand-sub">accounting · tax · wealth</span>
@@ -79,65 +88,99 @@ export function Header() {
 
         <nav className="nav" aria-label="Main navigation">
           {nav.map(([label, href]) => (
-            <Link key={href} href={href} aria-current={current(href)} className="nav-link">
+            <Link key={href} href={href} aria-current={current(href)} className="nav-link" style={{ position: "relative" }}>
               <span>{label}</span>
-              {current(href) && <span className="nav-active-pip" aria-hidden="true" />}
+              {current(href) && (
+                <motion.span
+                  layoutId="nav-active-pip"
+                  className="nav-active-pip"
+                  transition={motionSprings.snappy}
+                  aria-hidden="true"
+                />
+              )}
             </Link>
           ))}
-          <Link className="nav-cta" href="/contact" aria-current={current("/contact")}>
+          <MotionLink
+            className="nav-cta"
+            href="/contact"
+            aria-current={current("/contact")}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={motionSprings.snappy}
+          >
             <span>Let&apos;s talk</span>
             <Arrow />
-          </Link>
+          </MotionLink>
         </nav>
 
-        <button
+        <motion.button
           ref={buttonRef}
           className="mobile-menu"
           type="button"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen(!open)}
+          whileTap={{ scale: 0.94 }}
         >
           <span>{open ? "Close" : "Menu"}</span>
           <span className="menu-glyph" aria-hidden="true">
             <i />
             <i />
           </span>
-        </button>
+        </motion.button>
       </div>
 
-      {/* Mobile Navigation Drawer */}
-      <nav id="mobile-nav" className={`mobile-links${open ? " open" : ""}`} aria-label="Mobile navigation">
-        <div className="wrap mobile-links-inner">
-          <div className="mobile-meta-bar">
-            <span>TRANSATLANTIC PRACTICE</span>
-            <span>US ↔ INDIA</span>
-          </div>
-          <div className="mobile-nav-list">
-            {nav.map(([label, href]) => (
-              <Link
-                key={href}
-                href={href}
-                aria-current={current(href)}
-                tabIndex={open ? 0 : -1}
-                className="mobile-link-item"
-              >
-                <span>{label}</span>
-                <span className="mobile-arrow" aria-hidden="true">→</span>
-              </Link>
-            ))}
-          </div>
-          <div className="mobile-cta-wrap">
-            <Link className="mobile-cta" href="/contact" tabIndex={open ? 0 : -1}>
-              <span>Initiate Conversation</span>
-              <Arrow />
-            </Link>
-            <p className="mobile-disclaimer">
-              Strict confidentiality. No client tax data in initial web enquiries.
-            </p>
-          </div>
-        </div>
-      </nav>
+      {/* Mobile Navigation Drawer with AnimatePresence */}
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            id="mobile-nav"
+            className="mobile-links open"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={motionSprings.gentle}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="wrap mobile-links-inner">
+              <div className="mobile-meta-bar">
+                <span>TRANSATLANTIC PRACTICE</span>
+                <span>US ↔ INDIA</span>
+              </div>
+              <div className="mobile-nav-list">
+                {nav.map(([label, href], idx) => (
+                  <motion.div
+                    key={href}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.04, duration: 0.25 }}
+                  >
+                    <Link
+                      href={href}
+                      aria-current={current(href)}
+                      tabIndex={open ? 0 : -1}
+                      className="mobile-link-item"
+                    >
+                      <span>{label}</span>
+                      <span className="mobile-arrow" aria-hidden="true">→</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="mobile-cta-wrap">
+                <Link className="mobile-cta" href="/contact" tabIndex={open ? 0 : -1}>
+                  <span>Initiate Conversation</span>
+                  <Arrow />
+                </Link>
+                <p className="mobile-disclaimer">
+                  Strict confidentiality. No client tax data in initial web enquiries.
+                </p>
+              </div>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
@@ -168,20 +211,26 @@ export function Footer() {
                 <span className="cred-val">ARN-278052</span>
               </div>
             </div>
-            <Link className="button button-light footer-cta" href="/contact">
+            <MotionLink
+              className="button button-light footer-cta"
+              href="/contact"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={motionSprings.snappy}
+            >
               <span>Initiate Conversation</span>
               <Arrow />
-            </Link>
+            </MotionLink>
           </div>
 
           {/* Navigation Column 1: Practices */}
           <nav aria-label="Practice Areas" className="footer-col">
             <h2 className="footer-heading">Practice Areas</h2>
             <div className="footer-links">
-              <Link href="/cpa-firms">CPA Firm Augmentation</Link>
-              <Link href="/businesses">Business Bookkeeping &amp; Close</Link>
-              <Link href="/individuals">Personal &amp; Cross-Border Tax</Link>
-              <Link href="/wealth">Wealth &amp; Mutual Funds</Link>
+              <MotionLink href="/cpa-firms" whileHover={{ x: 4 }} transition={motionSprings.snappy}>CPA Firm Augmentation</MotionLink>
+              <MotionLink href="/businesses" whileHover={{ x: 4 }} transition={motionSprings.snappy}>Business Bookkeeping &amp; Close</MotionLink>
+              <MotionLink href="/individuals" whileHover={{ x: 4 }} transition={motionSprings.snappy}>Personal &amp; Cross-Border Tax</MotionLink>
+              <MotionLink href="/wealth" whileHover={{ x: 4 }} transition={motionSprings.snappy}>Wealth &amp; Mutual Funds</MotionLink>
             </div>
           </nav>
 
@@ -189,9 +238,9 @@ export function Footer() {
           <nav aria-label="Firm Details" className="footer-col">
             <h2 className="footer-heading">Firm &amp; Resources</h2>
             <div className="footer-links">
-              <Link href="/about">About Trust Trio</Link>
-              <Link href="/resources">Client Guides &amp; Resources</Link>
-              <Link href="/contact">Direct Contact &amp; Terms</Link>
+              <MotionLink href="/about" whileHover={{ x: 4 }} transition={motionSprings.snappy}>About Trust Trio</MotionLink>
+              <MotionLink href="/resources" whileHover={{ x: 4 }} transition={motionSprings.snappy}>Client Guides &amp; Resources</MotionLink>
+              <MotionLink href="/contact" whileHover={{ x: 4 }} transition={motionSprings.snappy}>Direct Contact &amp; Terms</MotionLink>
             </div>
             <div className="footer-corridor-box">
               <span className="corridor-title">OPERATING CORRIDOR</span>

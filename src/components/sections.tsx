@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
-import { Reveal } from "@/components/motion";
+import { motion } from "motion/react";
+import { Reveal, motionSprings } from "@/components/motion";
 import { Arrow, iconFor } from "@/components/icons";
+
+const MotionLink = motion.create(Link);
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return <span className="eyebrow">{children}</span>;
@@ -77,10 +82,16 @@ export function PageHero({
 
         {cta && (
           <div className="actions page-hero-actions">
-            <Link className="button button-light page-hero-btn" href="/contact">
+            <MotionLink
+              className="button button-light page-hero-btn"
+              href="/contact"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={motionSprings.snappy}
+            >
               <span>Initiate Conversation</span>
               <Arrow />
-            </Link>
+            </MotionLink>
             <span className="page-hero-sla">
               Direct CA Review · Complete Discretion
             </span>
@@ -98,7 +109,12 @@ export function ServiceCards({ items, id }: { items: ServiceItem[]; id?: string 
     <ul className="service-grid" id={id}>
       {items.map((item, i) => (
         <Reveal as="li" key={item.title} delay={(i % 3) * 70 + Math.floor(i / 3) * 35}>
-          <Link href={item.href ?? "/contact"} className="service-card">
+          <MotionLink
+            href={item.href ?? "/contact"}
+            className="service-card"
+            whileHover={{ y: -6 }}
+            transition={motionSprings.gentle}
+          >
             <span className="service-card-top">
               <span className="service-icon">{iconFor(item.title, i)}</span>
               <span className="service-number">{String(i + 1).padStart(2, "0")}</span>
@@ -109,7 +125,7 @@ export function ServiceCards({ items, id }: { items: ServiceItem[]; id?: string 
               <span>{item.cta ?? "Discuss this"}</span>
               <Arrow />
             </span>
-          </Link>
+          </MotionLink>
         </Reveal>
       ))}
     </ul>
@@ -145,10 +161,16 @@ export function ContactBand({
           </div>
         </Reveal>
         <Reveal delay={160} className="band-action-wrap">
-          <Link className="button button-light band-cta" href="/contact">
+          <MotionLink
+            className="button button-light band-cta"
+            href="/contact"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={motionSprings.snappy}
+          >
             <span>Let&apos;s talk</span>
             <Arrow />
-          </Link>
+          </MotionLink>
         </Reveal>
       </div>
     </section>
@@ -162,17 +184,29 @@ export function SplitVisual({ mark, one, two }: { mark: string; one: string; two
       <div className="visual-crosshair-h" />
       <div className="visual-crosshair-v" />
       <div className="visual-lines" />
-      <div className="visual-core">
+      <motion.div
+        className="visual-core"
+        animate={{ scale: [1, 1.06, 1] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+      >
         <span>{mark}</span>
-      </div>
-      <div className="note-card note-one">
+      </motion.div>
+      <motion.div
+        className="note-card note-one"
+        whileHover={{ scale: 1.05 }}
+        transition={motionSprings.snappy}
+      >
         <span className="note-tag">PRINCIPLE 01</span>
         <span>{one}</span>
-      </div>
-      <div className="note-card note-two">
+      </motion.div>
+      <motion.div
+        className="note-card note-two"
+        whileHover={{ scale: 1.05 }}
+        transition={motionSprings.snappy}
+      >
         <span className="note-tag">PRINCIPLE 02</span>
         <span>{two}</span>
-      </div>
+      </motion.div>
     </div>
   );
 }
